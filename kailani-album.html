@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Álbum de Kailani 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blush:#f9e4ee;--rose:#e8749a;--gold:#d4a843;--deep:#7a2d52;
+  --cream:#fff8f2;--pale:#fce9f4;--shadow:rgba(122,45,82,0.13);--text:#4a1a38;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--blush);font-family:'Nunito',sans-serif;color:var(--text);overflow-x:hidden;}
+
+/* HERO */
+.hero{background:linear-gradient(150deg,#7a2d52 0%,#c0527a 50%,#e8749a 100%);padding:50px 24px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 20%,rgba(212,168,67,0.25) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(255,255,255,0.08) 0%,transparent 50%);}
+.hero-petals{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.petal{position:absolute;font-size:1.4rem;opacity:0.18;animation:floatUp linear infinite;}
+@keyframes floatUp{0%{transform:translateY(110%) rotate(0deg);opacity:0}10%{opacity:0.18}90%{opacity:0.18}100%{transform:translateY(-20%) rotate(360deg);opacity:0}}
+.hero-content{position:relative;z-index:1;}
+.hero-star{font-size:2.2rem;margin-bottom:8px;display:block;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,7vw,3.8rem);font-weight:700;color:#fff;line-height:1.15;letter-spacing:-0.02em;}
+.hero h1 em{color:var(--gold);font-style:italic;}
+.hero h1 .apellido{font-size:1em;display:block;}
+.hero-sub{color:rgba(255,255,255,0.8);font-size:1rem;margin-top:10px;font-weight:300;letter-spacing:0.06em;}
+.hero-birth{display:inline-block;margin-top:16px;padding:8px 22px;background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.4);border-radius:30px;color:#fff;font-size:0.85rem;font-weight:700;letter-spacing:0.08em;backdrop-filter:blur(8px);}
+
+/* TABS */
+.tabs{display:flex;overflow-x:auto;gap:4px;padding:12px 16px;background:#fff;border-bottom:2px solid var(--pale);position:sticky;top:0;z-index:100;box-shadow:0 3px 12px var(--shadow);scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:8px 16px;border:2px solid var(--pale);background:transparent;font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:800;color:var(--deep);cursor:pointer;border-radius:20px;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
+.tab:hover{border-color:var(--rose);background:var(--pale);}
+.tab.active{background:var(--rose);color:#fff;border-color:var(--rose);}
+.section{display:none;}.section.active{display:block;}
+
+/* WRAPPER */
+.wrap{max-width:1100px;margin:0 auto;padding:28px 20px 60px;}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--deep);margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.sec-sub{color:var(--rose);font-size:0.9rem;font-style:italic;margin-bottom:28px;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;}
+
+/* ══════════════════════════════════════════
+   CARD WITH MULTI-MEDIA GALLERY
+══════════════════════════════════════════ */
+.mem-card{background:var(--cream);border-radius:16px;box-shadow:0 4px 18px var(--shadow);overflow:hidden;border:2px solid #f5d0e5;transition:transform 0.2s,box-shadow 0.2s;animation:popIn 0.4s ease;}
+.mem-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px var(--shadow);}
+@keyframes popIn{from{opacity:0;transform:scale(0.94)}to{opacity:1;transform:scale(1)}}
+
+/* Main preview */
+.card-preview{width:100%;aspect-ratio:4/3;background:var(--pale);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.card-preview img,.card-preview video{width:100%;height:100%;object-fit:cover;display:block;}
+.card-preview-emoji{font-size:3rem;opacity:0.5;}
+.card-count-badge{position:absolute;top:8px;right:8px;background:rgba(122,45,82,0.8);color:#fff;font-size:0.68rem;font-weight:800;padding:3px 8px;border-radius:12px;backdrop-filter:blur(4px);}
+
+/* Mini gallery strip */
+.card-gallery{display:flex;gap:4px;padding:6px;background:var(--pale);overflow-x:auto;scrollbar-width:none;min-height:58px;align-items:center;}
+.card-gallery::-webkit-scrollbar{display:none;}
+.gallery-thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0;cursor:pointer;border:2px solid transparent;transition:all 0.15s;}
+.gallery-thumb.active{border-color:var(--rose);transform:scale(1.08);}
+.gallery-thumb-video{width:48px;height:48px;border-radius:8px;flex-shrink:0;object-fit:cover;cursor:pointer;border:2px solid var(--gold);position:relative;}
+.gallery-empty{font-size:0.72rem;color:var(--rose);font-style:italic;padding:0 6px;opacity:0.7;}
+
+/* Upload buttons */
+.card-upload-bar{display:flex;gap:5px;padding:6px 8px;border-top:1px solid var(--pale);}
+.upload-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:7px 4px;border-radius:8px;font-family:'Nunito',sans-serif;font-size:0.72rem;font-weight:800;cursor:pointer;transition:all 0.15s;border:2px solid;}
+.upload-btn.photo{border-color:var(--rose);color:var(--rose);background:#fff;}
+.upload-btn.photo:hover{background:var(--rose);color:#fff;}
+.upload-btn.video{border-color:var(--gold);color:#9a7020;background:#fff;}
+.upload-btn.video:hover{background:var(--gold);color:#fff;}
+.upload-btn input{display:none;}
+
+/* Card body */
+.card-body{padding:10px 14px;}
+.card-label{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--deep);line-height:1.2;}
+.card-note{font-size:0.76rem;color:#a06080;font-style:italic;margin-top:3px;line-height:1.4;}
+.card-actions{display:flex;border-top:1px solid var(--pale);}
+.card-act-btn{flex:1;padding:8px 4px;background:transparent;border:none;font-size:0.72rem;font-weight:800;cursor:pointer;color:var(--rose);font-family:'Nunito',sans-serif;transition:background 0.15s;display:flex;align-items:center;justify-content:center;gap:3px;}
+.card-act-btn:hover{background:var(--pale);}
+.card-act-btn.del:hover{background:#fde8e8;color:#c0392b;}
+.card-act-btn+.card-act-btn{border-left:1px solid var(--pale);}
+
+/* Add card */
+.add-mem-card{background:var(--cream);border-radius:16px;border:2px dashed var(--rose);min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all 0.2s;padding:20px;text-align:center;}
+.add-mem-card:hover{background:var(--pale);border-color:var(--deep);}
+.add-mem-card p{color:var(--rose);font-size:0.85rem;font-weight:800;}
+
+/* BIG ADD BUTTON */
+.big-add-btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:13px;margin-bottom:22px;background:var(--rose);color:#fff;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;cursor:pointer;transition:background 0.2s;box-shadow:0 4px 14px var(--shadow);}
+.big-add-btn:hover{background:var(--deep);}
+
+/* MONTH CARDS */
+.year-selector{display:flex;align-items:center;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
+.year-btn{width:38px;height:38px;border-radius:50%;border:2px solid var(--rose);background:transparent;color:var(--deep);font-weight:800;font-size:0.85rem;cursor:pointer;transition:all 0.15s;font-family:'Nunito',sans-serif;}
+.year-btn.active{background:var(--rose);color:#fff;}
+.year-display{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--deep);font-weight:700;}
+.months-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;}
+.month-card{background:var(--cream);border-radius:14px;overflow:hidden;box-shadow:0 3px 12px var(--shadow);border:2px solid #f5d0e5;}
+.month-preview{width:100%;aspect-ratio:4/3;background:var(--pale);display:flex;align-items:center;justify-content:center;font-size:2rem;position:relative;overflow:hidden;}
+.month-preview img,.month-preview video{width:100%;height:100%;object-fit:cover;}
+.month-gallery{display:flex;gap:3px;padding:4px;background:var(--pale);overflow-x:auto;scrollbar-width:none;min-height:44px;align-items:center;}
+.month-gallery::-webkit-scrollbar{display:none;}
+.month-thumb{width:36px;height:36px;border-radius:6px;object-fit:cover;flex-shrink:0;cursor:pointer;border:2px solid transparent;}
+.month-thumb.active{border-color:var(--rose);}
+.month-upload-bar{display:flex;gap:4px;padding:5px 6px;border-top:1px solid var(--pale);}
+.month-upload-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:3px;padding:6px 3px;border-radius:7px;font-family:'Nunito',sans-serif;font-size:0.65rem;font-weight:800;cursor:pointer;transition:all 0.15s;border:1.5px solid;}
+.month-upload-btn.photo{border-color:var(--rose);color:var(--rose);background:#fff;}
+.month-upload-btn.photo:hover{background:var(--rose);color:#fff;}
+.month-upload-btn.video{border-color:var(--gold);color:#9a7020;background:#fff;}
+.month-upload-btn.video:hover{background:var(--gold);color:#fff;}
+.month-upload-btn input{display:none;}
+.month-foot{padding:8px 10px;}
+.month-name{font-weight:800;font-size:0.82rem;color:var(--deep);}
+.month-age{font-size:0.68rem;color:var(--rose);font-style:italic;}
+.month-note-input{width:100%;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:0.68rem;color:#a06080;font-style:italic;outline:none;margin-top:3px;resize:none;line-height:1.4;}
+
+/* CATEGORY FILTER */
+.cat-filter{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px;}
+.cat-btn{padding:7px 16px;border-radius:20px;border:2px solid var(--pale);background:#fff;font-family:'Nunito',sans-serif;font-size:0.8rem;font-weight:800;cursor:pointer;transition:all 0.2s;color:var(--deep);}
+.cat-btn:hover,.cat-btn.active{background:var(--rose);color:#fff;border-color:var(--rose);}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(122,45,82,0.6);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px);animation:fadeIn 0.2s;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--cream);border-radius:20px;padding:28px;max-width:460px;width:100%;border-top:6px solid var(--rose);box-shadow:0 20px 60px rgba(122,45,82,0.3);animation:slideUp 0.3s ease;max-height:90vh;overflow-y:auto;}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal h2{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--deep);margin-bottom:18px;}
+.fgroup{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;}
+.fgroup label{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--rose);font-weight:800;}
+.fgroup input,.fgroup select,.fgroup textarea{padding:9px 12px;border:2px solid var(--pale);border-radius:10px;background:#fff;font-family:'Nunito',sans-serif;font-size:0.92rem;color:var(--text);outline:none;transition:border-color 0.2s;}
+.fgroup input:focus,.fgroup textarea:focus,.fgroup select:focus{border-color:var(--rose);}
+.fgroup textarea{min-height:70px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.modal-btns{display:flex;gap:9px;margin-top:18px;}
+.btn-cancel{padding:10px 18px;background:transparent;border:2px solid var(--pale);border-radius:10px;color:var(--deep);font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;}
+.btn-ok{flex:1;padding:10px;background:var(--rose);color:#fff;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:800;cursor:pointer;transition:background 0.2s;}
+.btn-ok:hover{background:var(--deep);}
+
+/* TIMELINE */
+.timeline{position:relative;padding-left:32px;}
+.timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--rose),var(--gold));border-radius:2px;}
+.tl-item{position:relative;margin-bottom:24px;animation:popIn 0.4s ease;}
+.tl-dot{position:absolute;left:-26px;top:6px;width:16px;height:16px;border-radius:50%;background:var(--rose);border:3px solid #fff;box-shadow:0 2px 8px var(--shadow);}
+.tl-card{background:var(--cream);border-radius:14px;overflow:hidden;box-shadow:0 3px 12px var(--shadow);border:2px solid #f5d0e5;}
+.tl-head{padding:14px 16px 10px;}
+.tl-date{font-size:0.72rem;color:var(--rose);font-weight:800;letter-spacing:0.08em;text-transform:uppercase;}
+.tl-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--deep);margin:4px 0;}
+.tl-desc{font-size:0.83rem;color:#a06080;font-style:italic;line-height:1.5;}
+.tl-del{float:right;background:none;border:none;cursor:pointer;color:#ddd;font-size:0.9rem;transition:color 0.2s;}
+.tl-del:hover{color:var(--rose);}
+
+/* VIEWER */
+.viewer{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:900;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.viewer-main{max-width:92vw;max-height:72vh;border-radius:10px;object-fit:contain;}
+.viewer-strip{display:flex;gap:7px;margin-top:14px;overflow-x:auto;max-width:90vw;padding:4px;scrollbar-width:none;}
+.viewer-strip::-webkit-scrollbar{display:none;}
+.viewer-thumb{width:54px;height:54px;border-radius:7px;object-fit:cover;cursor:pointer;opacity:0.55;border:2px solid transparent;flex-shrink:0;transition:all 0.15s;}
+.viewer-thumb.active{opacity:1;border-color:var(--rose);transform:scale(1.1);}
+.viewer-close{position:absolute;top:16px;right:20px;color:#fff;font-size:1.8rem;background:none;border:none;cursor:pointer;}
+.viewer-del{position:absolute;top:16px;left:20px;color:#fff;font-size:0.8rem;background:rgba(192,98,42,0.85);border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-weight:800;}
+.viewer-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.18);border:none;color:#fff;font-size:1.8rem;padding:8px 14px;cursor:pointer;border-radius:8px;backdrop-filter:blur(4px);}
+.viewer-nav.prev{left:14px;}.viewer-nav.next{right:14px;}
+.viewer-count{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.5);color:#fff;padding:4px 14px;border-radius:20px;font-size:0.78rem;font-weight:800;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.form-row{grid-template-columns:1fr;}.months-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}}
+
+/* CARTA */
+.carta-card{background:var(--cream);border-radius:16px;padding:24px 26px;margin-bottom:18px;box-shadow:0 4px 18px var(--shadow);border:2px solid #f5d0e5;position:relative;animation:fadeUp 0.4s ease;background-image:repeating-linear-gradient(transparent,transparent 27px,#f5d0e580 27px,#f5d0e580 28px);background-position:0 36px;}
+.carta-sobre{font-size:2rem;margin-bottom:8px;}
+.carta-titulo{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--deep);font-weight:700;}
+.carta-cuando{font-size:0.75rem;color:var(--gold);font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin:4px 0 12px;}
+.carta-texto{font-size:0.95rem;line-height:1.9;color:var(--text);font-style:italic;white-space:pre-wrap;}
+.carta-fecha{font-size:0.72rem;color:#c0a0b0;margin-top:14px;text-align:right;}
+.carta-del{position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;color:#ddd;font-size:0.9rem;}
+.carta-del:hover{color:var(--rose);}
+
+/* PRIMERAS VECES */
+.primera-card{background:var(--cream);border-radius:14px;padding:18px 20px;box-shadow:0 3px 14px var(--shadow);border:2px solid #f5d0e5;position:relative;animation:fadeUp 0.4s ease;}
+.primera-medal{font-size:2rem;margin-bottom:8px;display:block;}
+.primera-que{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--deep);font-weight:700;}
+.primera-edad{font-size:0.75rem;color:var(--rose);font-weight:800;margin:3px 0;}
+.primera-desc{font-size:0.82rem;color:#a06080;font-style:italic;line-height:1.5;margin-top:6px;}
+
+/* CRECIMIENTO */
+.crece-table{width:100%;border-collapse:collapse;background:var(--cream);border-radius:12px;overflow:hidden;box-shadow:0 4px 18px var(--shadow);margin-top:20px;}
+.crece-table th{background:var(--rose);color:#fff;padding:12px 16px;font-size:0.8rem;font-weight:800;letter-spacing:0.06em;text-align:left;}
+.crece-table td{padding:11px 16px;border-bottom:1px solid var(--pale);font-size:0.9rem;}
+.crece-table tr:last-child td{border-bottom:none;}
+.crece-table tr:hover td{background:var(--pale);}
+.crece-bar-wrap{background:var(--cream);border-radius:12px;padding:20px;box-shadow:0 4px 18px var(--shadow);margin-bottom:20px;}
+.crece-bar-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--deep);margin-bottom:14px;font-weight:700;}
+.crece-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.crece-bar-label{font-size:0.72rem;color:var(--deep);font-weight:800;min-width:70px;}
+.crece-bar{flex:1;height:18px;background:var(--pale);border-radius:9px;overflow:hidden;}
+.crece-bar-fill{height:100%;border-radius:9px;transition:width 0.6s ease;}
+.crece-bar-val{font-size:0.72rem;color:var(--deep);font-weight:800;min-width:40px;text-align:right;}
+
+/* FAVORITOS */
+.fav-card{background:var(--cream);border-radius:16px;padding:20px 22px;margin-bottom:18px;box-shadow:0 4px 18px var(--shadow);border:2px solid #f5d0e5;animation:fadeUp 0.4s ease;position:relative;}
+.fav-edad{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--deep);font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.fav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.fav-item{background:var(--pale);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;}
+.fav-item-label{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--rose);font-weight:800;}
+.fav-item-value{font-size:0.88rem;color:var(--deep);font-weight:700;}
+
+/* FRASES */
+.frase-card{background:var(--cream);border-radius:14px;padding:20px 22px;margin-bottom:14px;box-shadow:0 3px 14px var(--shadow);border-left:5px solid var(--gold);animation:fadeUp 0.4s ease;position:relative;}
+.frase-comilla{font-size:3rem;color:var(--gold);line-height:0.5;font-family:'Playfair Display',serif;opacity:0.4;float:left;margin-right:8px;margin-top:12px;}
+.frase-texto{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--deep);font-style:italic;line-height:1.5;}
+.frase-meta{font-size:0.75rem;color:var(--rose);font-weight:800;margin-top:10px;}
+.frase-contexto{font-size:0.78rem;color:#a06080;font-style:italic;margin-top:4px;}</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-petals" id="petals"></div>
+  <div class="hero-content">
+    <span class="hero-star">🌸</span>
+    <h1>El Álbum de<br><em>Kailani Candelaria<br><span class="apellido">Vélez</span></em></h1>
+    <p class="hero-sub">Cada momento, para siempre 💛</p>
+    <div class="hero-birth" id="heroBirth">✨ Cargando...</div>
+    <div style="margin-top:14px">
+      <label style="display:inline-flex;align-items:center;gap:7px;padding:8px 18px;background:rgba(255,255,255,0.18);border:1.5px solid rgba(255,255,255,0.5);border-radius:30px;color:#fff;font-size:0.8rem;font-weight:800;cursor:pointer;backdrop-filter:blur(8px)">
+        🖼️ Añadir foto de portada
+        <input type="file" accept="*/*" style="display:none" onchange="setHeroPhoto(event)">
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('meses',this)">📅 Por Mes</button>
+  <button class="tab" onclick="showTab('anos',this)">🎂 Por Año</button>
+  <button class="tab" onclick="showTab('actividades',this)">🎀 Actividades</button>
+  <button class="tab" onclick="showTab('escuela',this)">🏫 Escuela</button>
+  <button class="tab" onclick="showTab('familia',this)">👨‍👩‍👧 Familia</button>
+  <button class="tab" onclick="showTab('religion',this)">⛪ Fe</button>
+  <button class="tab" onclick="showTab('momentos',this)">🌟 Momentos</button>
+  <button class="tab" onclick="showTab('cartas',this)">💌 Cartas</button>
+  <button class="tab" onclick="showTab('primeras',this)">🥇 Primeras Veces</button>
+  <button class="tab" onclick="showTab('crecimiento',this)">📏 Crecimiento</button>
+  <button class="tab" onclick="showTab('favoritos',this)">💖 Favoritos</button>
+  <button class="tab" onclick="showTab('frases',this)">💬 Sus Frases</button>
+</div>
+
+<!-- POR MES -->
+<div id="meses" class="section active">
+  <div class="wrap">
+    <div class="sec-title">📅 Galería por mes</div>
+    <p class="sec-sub">Fotos y videos de cada mes — toca la miniatura para ver</p>
+    <div class="year-selector" id="yearSelector"></div>
+    <div class="months-grid" id="monthsGrid"></div>
+  </div>
+</div>
+
+<!-- POR AÑO -->
+<div id="anos" class="section">
+  <div class="wrap">
+    <div class="sec-title">🎂 Sus años</div>
+    <p class="sec-sub">Fotos y videos de cada cumpleaños</p>
+    <button class="big-add-btn" onclick="openModal('yearModalBg')">➕ Añadir año</button>
+    <div class="cards-grid" id="yearsGrid"></div>
+  </div>
+</div>
+
+<!-- ACTIVIDADES -->
+<div id="actividades" class="section">
+  <div class="wrap">
+    <div class="sec-title">🎀 Actividades</div>
+    <p class="sec-sub">Baile, deporte, arte, música — todo lo que la hace única</p>
+    <div class="cat-filter">
+      <button class="cat-btn active" onclick="filterAct('all',this)">🌟 Todas</button>
+      <button class="cat-btn" onclick="filterAct('baile',this)">💃 Baile</button>
+      <button class="cat-btn" onclick="filterAct('deporte',this)">⚽ Deporte</button>
+      <button class="cat-btn" onclick="filterAct('arte',this)">🎨 Arte</button>
+      <button class="cat-btn" onclick="filterAct('musica',this)">🎵 Música</button>
+      <button class="cat-btn" onclick="filterAct('otro',this)">✨ Otro</button>
+    </div>
+    <button class="big-add-btn" onclick="openModal('actModalBg')">➕ Añadir actividad</button>
+    <div class="cards-grid" id="actGrid"></div>
+  </div>
+</div>
+
+<!-- ESCUELA -->
+<div id="escuela" class="section">
+  <div class="wrap">
+    <div class="sec-title">🏫 Su escuela</div>
+    <p class="sec-sub">De Pre-K hasta el último grado</p>
+    <button class="big-add-btn" onclick="openModal('schoolModalBg')">➕ Añadir año escolar</button>
+    <div class="cards-grid" id="schoolGrid"></div>
+  </div>
+</div>
+
+<!-- FAMILIA -->
+<div id="familia" class="section">
+  <div class="wrap">
+    <div class="sec-title">👨‍👩‍👧 Su familia</div>
+    <p class="sec-sub">Las personas que la rodean de amor</p>
+    <button class="big-add-btn" onclick="openModal('famModalBg')">➕ Añadir familiar</button>
+    <div class="cards-grid" id="famGrid"></div>
+  </div>
+</div>
+
+<!-- FE -->
+<div id="religion" class="section">
+  <div class="wrap">
+    <div class="sec-title">⛪ Fe y Religión</div>
+    <p class="sec-sub">Los momentos espirituales más importantes</p>
+    <button class="big-add-btn" onclick="openModal('religionModalBg')">➕ Añadir evento</button>
+    <div class="cards-grid" id="religionGrid"></div>
+  </div>
+</div>
+
+<!-- MOMENTOS -->
+<div id="momentos" class="section">
+  <div class="wrap">
+    <div class="sec-title">🌟 Momentos especiales</div>
+    <p class="sec-sub">Sus primeras veces, logros y días más importantes</p>
+    <button class="big-add-btn" onclick="openModal('momentoModalBg')">✨ Añadir momento</button>
+    <div class="timeline" id="momentosTimeline"></div>
+  </div>
+</div>
+
+<!-- CARTAS DE MAMÁ -->
+<div id="cartas" class="section">
+  <div class="wrap">
+    <div class="sec-title">💌 Cartas de Mamá</div>
+    <p class="sec-sub">Palabras del corazón para que las leas cuando seas grande, mi amor</p>
+    <button class="big-add-btn" onclick="openModal('cartaModalBg')">✍️ Escribir una carta</button>
+    <div id="cartasList"></div>
+  </div>
+</div>
+
+<!-- PRIMERAS VECES -->
+<div id="primeras" class="section">
+  <div class="wrap">
+    <div class="sec-title">🥇 Sus Primeras Veces</div>
+    <p class="sec-sub">Cada primera vez es irrepetible — aquí quedan para siempre</p>
+    <button class="big-add-btn" onclick="openModal('primeraModalBg')">➕ Añadir primera vez</button>
+    <div class="cards-grid" id="primerasGrid"></div>
+  </div>
+</div>
+
+<!-- CRECIMIENTO -->
+<div id="crecimiento" class="section">
+  <div class="wrap">
+    <div class="sec-title">📏 Crecimiento</div>
+    <p class="sec-sub">Talla y peso mes a mes — el registro de cómo crece tu princesa</p>
+    <button class="big-add-btn" onclick="openModal('creceModalBg')">➕ Añadir medida</button>
+    <div id="creceChart"></div>
+    <div id="creceList"></div>
+  </div>
+</div>
+
+<!-- FAVORITOS -->
+<div id="favoritos" class="section">
+  <div class="wrap">
+    <div class="sec-title">💖 Sus Favoritos</div>
+    <p class="sec-sub">Lo que más ama en cada etapa de su vida</p>
+    <button class="big-add-btn" onclick="openModal('favModalBg')">➕ Añadir favoritos del año</button>
+    <div id="favsList"></div>
+  </div>
+</div>
+
+<!-- FRASES -->
+<div id="frases" class="section">
+  <div class="wrap">
+    <div class="sec-title">💬 Sus Frases</div>
+    <p class="sec-sub">Las cosas graciosas y tiernas que dice Kailani</p>
+    <button class="big-add-btn" onclick="openModal('fraseModalBg')">💬 Añadir frase</button>
+    <div id="frasesList"></div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-bg" id="yearModalBg" style="display:none" onclick="bgClose(event,'yearModalBg')">
+  <div class="modal"><h2>🎂 Año de Kailani</h2>
+    <div class="fgroup"><label>Número del año *</label><input id="yrNum" type="number" placeholder="Ej: 1, 2, 3..."></div>
+    <div class="fgroup"><label>Fecha del cumpleaños</label><input id="yrDate" type="date"></div>
+    <div class="fgroup"><label>Nota especial</label><textarea id="yrNote" placeholder="Este año empezó a..."></textarea></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('yearModalBg')">Cancelar</button><button class="btn-ok" onclick="saveYear()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="actModalBg" style="display:none" onclick="bgClose(event,'actModalBg')">
+  <div class="modal"><h2>🎀 Nueva actividad</h2>
+    <div class="fgroup"><label>Nombre *</label><input id="aName" placeholder="Ej: Ballet clásico"></div>
+    <div class="fgroup"><label>Categoría</label>
+      <select id="aCat"><option value="baile">💃 Baile</option><option value="deporte">⚽ Deporte</option><option value="arte">🎨 Arte</option><option value="musica">🎵 Música</option><option value="otro">✨ Otro</option></select>
+    </div>
+    <div class="form-row">
+      <div class="fgroup"><label>Desde</label><input id="aFrom" placeholder="2027"></div>
+      <div class="fgroup"><label>Hasta</label><input id="aTo" placeholder="actual"></div>
+    </div>
+    <div class="fgroup"><label>Descripción</label><textarea id="aDesc" placeholder="Logros, profesora..."></textarea></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('actModalBg')">Cancelar</button><button class="btn-ok" onclick="saveAct()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="schoolModalBg" style="display:none" onclick="bgClose(event,'schoolModalBg')">
+  <div class="modal"><h2>🏫 Año escolar</h2>
+    <div class="fgroup"><label>Grado *</label><input id="sGrade" placeholder="Ej: Pre-K, Kínder, 1er grado"></div>
+    <div class="fgroup"><label>Escuela</label><input id="sName" placeholder="Nombre de la escuela"></div>
+    <div class="form-row">
+      <div class="fgroup"><label>Año escolar</label><input id="sYear" placeholder="2028-2029"></div>
+      <div class="fgroup"><label>Maestra/o</label><input id="sTeacher" placeholder="Maestra Carmen"></div>
+    </div>
+    <div class="fgroup"><label>Recuerdos</label><textarea id="sNote" placeholder="Amigos, logros..."></textarea></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('schoolModalBg')">Cancelar</button><button class="btn-ok" onclick="saveSchool()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="famModalBg" style="display:none" onclick="bgClose(event,'famModalBg')">
+  <div class="modal"><h2>👨‍👩‍👧 Familiar especial</h2>
+    <div class="fgroup"><label>Nombre *</label><input id="fName" placeholder="Ej: Abuela Rosa"></div>
+    <div class="fgroup"><label>Relación</label><input id="fRel" placeholder="Abuela materna, Madrina..."></div>
+    <div class="fgroup"><label>Frase de amor</label><input id="fPhrase" placeholder="Mi viejita favorita"></div>
+    <div class="fgroup"><label>Descripción</label><textarea id="fDesc" placeholder="Cómo es esta persona para Kailani..."></textarea></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('famModalBg')">Cancelar</button><button class="btn-ok" onclick="saveFam()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="religionModalBg" style="display:none" onclick="bgClose(event,'religionModalBg')">
+  <div class="modal"><h2>⛪ Evento de fe</h2>
+    <div class="fgroup"><label>Evento *</label><input id="rEvent" placeholder="Ej: Bautismo"></div>
+    <div class="fgroup"><label>Tipo</label>
+      <select id="rType"><option value="bautismo">🕊️ Bautismo</option><option value="comunion">✝️ Primera Comunión</option><option value="confirmacion">🕯️ Confirmación</option><option value="oracion">🙏 Oración</option><option value="otro">⛪ Otro</option></select>
+    </div>
+    <div class="fgroup"><label>Fecha</label><input id="rDate" type="date"></div>
+    <div class="fgroup"><label>Descripción</label><textarea id="rDesc" placeholder="Padrinos, iglesia..."></textarea></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('religionModalBg')">Cancelar</button><button class="btn-ok" onclick="saveReligion()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="cartaModalBg" style="display:none" onclick="bgClose(event,'cartaModalBg')">
+  <div class="modal"><h2>💌 Carta para Kailani</h2>
+    <div class="fgroup"><label>Título de la carta</label><input id="ctTitulo" placeholder="Ej: El día que cumpliste 2 años"></div>
+    <div class="fgroup"><label>Fecha</label><input id="ctFecha" type="date"></div>
+    <div class="fgroup"><label>Tu carta *</label><textarea id="ctTexto" placeholder="Mi Kailani querida..." style="min-height:140px"></textarea></div>
+    <div class="fgroup"><label>¿Cuándo leerla?</label><input id="ctCuando" placeholder="Ej: Cuando tengas 15 años, El día de tu boda"></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('cartaModalBg')">Cancelar</button><button class="btn-ok" onclick="saveCarta()">💌 Guardar carta</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="primeraModalBg" style="display:none" onclick="bgClose(event,'primeraModalBg')">
+  <div class="modal"><h2>🥇 Primera vez</h2>
+    <div class="fgroup"><label>¿Qué fue? *</label><input id="pvQue" placeholder="Ej: Primera palabra, Primer paso"></div>
+    <div class="fgroup"><label>Fecha</label><input id="pvFecha" type="date"></div>
+    <div class="fgroup"><label>¿Cuántos meses / años tenía?</label><input id="pvEdad" placeholder="Ej: 11 meses, 1 año y 2 meses"></div>
+    <div class="fgroup"><label>Cuéntalo</label><textarea id="pvDesc" placeholder="Cómo pasó, quién estaba presente..."></textarea></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('primeraModalBg')">Cancelar</button><button class="btn-ok" onclick="savePrimera()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="creceModalBg" style="display:none" onclick="bgClose(event,'creceModalBg')">
+  <div class="modal"><h2>📏 Nueva medida</h2>
+    <div class="fgroup"><label>Fecha *</label><input id="crFecha" type="date"></div>
+    <div class="form-row">
+      <div class="fgroup"><label>Talla (cm)</label><input id="crTalla" type="number" placeholder="Ej: 75" step="0.1"></div>
+      <div class="fgroup"><label>Peso (lb)</label><input id="crPeso" type="number" placeholder="Ej: 22.5" step="0.1"></div>
+    </div>
+    <div class="fgroup"><label>Nota</label><input id="crNota" placeholder="Ej: Visita del pediatra, 9 meses"></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('creceModalBg')">Cancelar</button><button class="btn-ok" onclick="saveCrece()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="favModalBg" style="display:none" onclick="bgClose(event,'favModalBg')">
+  <div class="modal"><h2>💖 Favoritos</h2>
+    <div class="fgroup"><label>Edad / Año *</label><input id="fvEdad" placeholder="Ej: 2 años, 3 años"></div>
+    <div class="form-row">
+      <div class="fgroup"><label>Color favorito</label><input id="fvColor" placeholder="Ej: Rosa"></div>
+      <div class="fgroup"><label>Comida favorita</label><input id="fvComida" placeholder="Ej: Arroz con pollo"></div>
+    </div>
+    <div class="form-row">
+      <div class="fgroup"><label>Canción favorita</label><input id="fvCancion" placeholder="Ej: Baby Shark"></div>
+      <div class="fgroup"><label>Personaje favorito</label><input id="fvPersonaje" placeholder="Ej: Peppa Pig"></div>
+    </div>
+    <div class="form-row">
+      <div class="fgroup"><label>Juguete favorito</label><input id="fvJuguete" placeholder="Ej: Su osito"></div>
+      <div class="fgroup"><label>Palabra favorita</label><input id="fvPalabra" placeholder="Ej: Mamá, No, Más"></div>
+    </div>
+    <div class="fgroup"><label>Actividad favorita</label><input id="fvActividad" placeholder="Ej: Bailar, Pintar, Ver videos"></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('favModalBg')">Cancelar</button><button class="btn-ok" onclick="saveFav()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="fraseModalBg" style="display:none" onclick="bgClose(event,'fraseModalBg')">
+  <div class="modal"><h2>💬 Frase de Kailani</h2>
+    <div class="fgroup"><label>Lo que dijo *</label><textarea id="frFrase" placeholder="Exactamente como lo dijo..."></textarea></div>
+    <div class="form-row">
+      <div class="fgroup"><label>Fecha</label><input id="frFecha" type="date"></div>
+      <div class="fgroup"><label>Edad</label><input id="frEdad" placeholder="Ej: 2 años y 3 meses"></div>
+    </div>
+    <div class="fgroup"><label>Contexto</label><input id="frContexto" placeholder="¿Qué pasó antes de que lo dijera?"></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('fraseModalBg')">Cancelar</button><button class="btn-ok" onclick="saveFrase()">💾 Guardar</button></div>
+  </div>
+</div>
+  <div class="modal"><h2>🌟 Momento especial</h2>
+    <div class="fgroup"><label>Título *</label><input id="mTitle" placeholder="Ej: Primeros pasos"></div>
+    <div class="fgroup"><label>Fecha</label><input id="mDate" type="date"></div>
+    <div class="fgroup"><label>Descripción</label><textarea id="mDesc" placeholder="Cuéntalo con tus palabras..."></textarea></div>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('momentoModalBg')">Cancelar</button><button class="btn-ok" onclick="saveMomento()">💾 Guardar</button></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════
+const BIRTH_DATE = new Date(2023,0,4); // Enero 4, 2023
+const BIRTH_YEAR = 2023;
+const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const ACT_ICONS = {baile:'💃',deporte:'⚽',arte:'🎨',musica:'🎵',otro:'✨'};
+const REL_ICONS = {bautismo:'🕊️',comunion:'✝️',confirmacion:'🕯️',oracion:'🙏',otro:'⛪'};
+
+// ══════════════════════════════════════
+// STATE — each item has media:[] array
+// media item: {url, type:'photo'|'video'}
+// ══════════════════════════════════════
+let monthData = {}; // [year][month] = {media:[], note:''}
+let yearCards = [];
+let activities = [];
+let schoolCards = [];
+let famCards = [{id:1,name:'Mamá Diana',rel:'Mamá',phrase:'Mi todo',desc:'La persona que más la ama.',emoji:'👩',media:[]}];
+let religionCards = [];
+let momentos = [
+  {id:1,title:'Nació Kailani Candelaria Vélez',date:'2023-01-04',desc:'El día más feliz — llegó a iluminarnos la vida.',media:[]},
+  {id:2,title:'Primera sonrisa',date:'2023-03-10',desc:'Por primera vez nos regaló esa sonrisa que ilumina todo.',media:[]},
+];
+let nid=100, actFilter='all';
+
+// ══════════════════════════════════════
+// HERO
+// ══════════════════════════════════════
+function initHero(){
+  const now=new Date();
+  const days=Math.floor((now-BIRTH_DATE)/(1000*60*60*24));
+  const yrs=Math.floor(days/365), mos=Math.floor((days%365)/30);
+  document.getElementById('heroBirth').textContent =
+    yrs>0?`✨ ${yrs} año${yrs!==1?'s':''} y ${mos} mes${mos!==1?'es':''} de amor`:`✨ ${mos} mes${mos!==1?'es':''} de amor`;
+  const container=document.getElementById('petals');
+  ['🌸','🌺','✨','💛','🌷','⭐','🌼'].forEach(p=>{
+    const el=document.createElement('div');el.className='petal';el.textContent=p;
+    el.style.left=`${Math.random()*90+5}%`;el.style.animationDuration=`${8+Math.random()*12}s`;
+    el.style.animationDelay=`${Math.random()*8}s`;el.style.fontSize=`${0.8+Math.random()*1.2}rem`;
+    container.appendChild(el);
+  });
+}
+
+// ══════════════════════════════════════
+// TABS
+// ══════════════════════════════════════
+function showTab(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active'); btn.classList.add('active');
+  if(id==='meses') renderMonths();
+  if(id==='anos') renderGrid('yearsGrid',yearCards,makeYearCard,openModal.bind(null,'yearModalBg'),'🎂','Añadir año');
+  if(id==='actividades') renderActs();
+  if(id==='escuela') renderGrid('schoolGrid',schoolCards,makeSchoolCard,openModal.bind(null,'schoolModalBg'),'🏫','Añadir año escolar');
+  if(id==='familia') renderGrid('famGrid',famCards,makeFamCard,openModal.bind(null,'famModalBg'),'👨‍👩‍👧','Añadir familiar');
+  if(id==='religion') renderGrid('religionGrid',religionCards,makeRelCard,openModal.bind(null,'religionModalBg'),'⛪','Añadir evento');
+  if(id==='momentos') renderMomentos();
+  if(id==='cartas') renderCartas();
+  if(id==='primeras') renderPrimeras();
+  if(id==='crecimiento') renderCrece();
+  if(id==='favoritos') renderFavs();
+  if(id==='frases') renderFrases();
+}
+
+// ══════════════════════════════════════
+// MULTI-MEDIA ENGINE
+// ══════════════════════════════════════
+// Creates the full card with gallery strip + 2 upload buttons
+function makeMediaCard(item, labelHtml, noteHtml, deleteCall){
+  const card=document.createElement('div'); card.className='mem-card';
+  const media=item.media||[];
+  const cur=item._cur||0;
+  const curItem=media[cur];
+
+  // Main preview
+  let previewHtml='';
+  if(curItem){
+    previewHtml=curItem.type==='video'
+      ?`<video src="${curItem.url}" style="width:100%;height:100%;object-fit:cover" muted playsinline loop></video>`
+      :`<img src="${curItem.url}" alt="">`;
+  } else {
+    previewHtml=`<div class="card-preview-emoji">${item.emoji||'🌸'}</div>`;
+  }
+
+  const countBadge=media.length>1?`<div class="card-count-badge">${media.length} 📷</div>`:'';
+
+  // Gallery thumbs
+  const thumbsHtml=media.map((m,i)=>{
+    if(m.type==='video')
+      return `<video src="${m.url}" class="gallery-thumb-video${i===cur?' active':''}" onclick="setActive(${item.id},'${item._list}',${i})" muted playsinline style="width:48px;height:48px;border-radius:8px;object-fit:cover;border:2px solid ${i===cur?'var(--rose)':'var(--gold)'}"></video>`;
+    return `<img src="${m.url}" class="gallery-thumb${i===cur?' active':''}" onclick="setActive(${item.id},'${item._list}',${i})">`;
+  }).join('');
+  const galleryEmpty=media.length===0?`<span class="gallery-empty">Sin fotos aún — añade abajo</span>`:'';
+
+  // Unique input IDs
+  const pid=`ph_${item._list}_${item.id}`;
+  const vid=`vi_${item._list}_${item.id}`;
+
+  card.innerHTML=`
+    <div class="card-preview" onclick="${media.length?`openViewer('${item._list}',${item.id},${cur})`:''}" style="cursor:${media.length?'pointer':'default'}">
+      ${previewHtml}${countBadge}
+    </div>
+    <div class="card-gallery">${thumbsHtml}${galleryEmpty}</div>
+    <div class="card-upload-bar">
+      <label class="upload-btn photo">📷 Foto<input type="file" id="${pid}" accept="*/*" style="display:none" data-id="${item.id}" data-list="${item._list}" data-kind="photo"></label>
+      <label class="upload-btn video">🎬 Video<input type="file" id="${vid}" accept="*/*" style="display:none" data-id="${item.id}" data-list="${item._list}" data-kind="video"></label>
+    </div>
+    <div class="card-body">
+      ${labelHtml}
+      ${noteHtml}
+    </div>
+    <div class="card-actions">
+      <button class="card-act-btn del" onclick="${deleteCall}">🗑️ Borrar</button>
+    </div>`;
+
+  // File handlers
+  [pid,vid].forEach(inputId=>{
+    const inp=card.querySelector(`#${inputId}`);
+    if(!inp) return;
+    inp.addEventListener('change',function(){
+      const file=this.files[0]; if(!file) return;
+      const id=this.dataset.id, list=this.dataset.list, kind=this.dataset.kind;
+      const isVideo=file.type.startsWith('video/')||kind==='video';
+      const reader=new FileReader();
+      reader.onload=e=>{
+        const arr=getList(list);
+        const obj=arr.find(x=>String(x.id)===id); if(!obj) return;
+        if(!obj.media) obj.media=[];
+        obj.media.push({url:e.target.result,type:isVideo?'video':'photo'});
+        obj._cur=obj.media.length-1;
+        rerender(list);
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  // Autoplay hover for main video
+  if(curItem&&curItem.type==='video'){
+    const v=card.querySelector('.card-preview video');
+    if(v){card.addEventListener('mouseenter',()=>v.play());card.addEventListener('mouseleave',()=>{v.pause();v.currentTime=0;});}
+  }
+  return card;
+}
+
+function getList(list){
+  return list==='year'?yearCards:list==='act'?activities:list==='school'?schoolCards:list==='fam'?famCards:list==='rel'?religionCards:list==='primera'?primeras:momentos;
+}
+function rerender(list){
+  if(list==='year') renderGrid('yearsGrid',yearCards,makeYearCard,openModal.bind(null,'yearModalBg'),'🎂','Añadir año');
+  else if(list==='act') renderActs();
+  else if(list==='school') renderGrid('schoolGrid',schoolCards,makeSchoolCard,openModal.bind(null,'schoolModalBg'),'🏫','Añadir año escolar');
+  else if(list==='fam') renderGrid('famGrid',famCards,makeFamCard,openModal.bind(null,'famModalBg'),'👨‍👩‍👧','Añadir familiar');
+  else if(list==='rel') renderGrid('religionGrid',religionCards,makeRelCard,openModal.bind(null,'religionModalBg'),'⛪','Añadir evento');
+  else if(list==='primera') renderPrimeras();
+  else if(list==='mom') renderMomentos();
+}
+function setActive(id,list,idx){
+  const arr=getList(list);
+  const obj=arr.find(x=>x.id===id); if(!obj) return;
+  obj._cur=idx; rerender(list);
+}
+
+// ══════════════════════════════════════
+// VIEWER
+// ══════════════════════════════════════
+let viewerList=null, viewerItemId=null, viewerIdx=0;
+function openViewer(list,id,startIdx){
+  const arr=getList(list);
+  const item=arr.find(x=>x.id===id); if(!item||!item.media.length) return;
+  viewerList=list; viewerItemId=id; viewerIdx=startIdx||0;
+  renderViewer();
+}
+function renderViewer(){
+  const existing=document.querySelector('.viewer'); if(existing) existing.remove();
+  const arr=getList(viewerList);
+  const item=arr.find(x=>x.id===viewerItemId); if(!item) return;
+  const m=item.media[viewerIdx];
+  const total=item.media.length;
+  const thumbs=item.media.map((mi,i)=>{
+    if(mi.type==='video') return `<video src="${mi.url}" class="viewer-thumb${i===viewerIdx?' active':''}" onclick="viewerGo(${i})" muted style="width:54px;height:54px;border-radius:7px;object-fit:cover;cursor:pointer;opacity:${i===viewerIdx?1:0.55};border:2px solid ${i===viewerIdx?'var(--rose)':'transparent'}"></video>`;
+    return `<img src="${mi.url}" class="viewer-thumb${i===viewerIdx?' active':''}" onclick="viewerGo(${i})">`;
+  }).join('');
+  const mediaEl=m.type==='video'
+    ?`<video src="${m.url}" class="viewer-main" controls autoplay style="max-width:92vw;max-height:72vh;border-radius:10px"></video>`
+    :`<img src="${m.url}" class="viewer-main">`;
+  const v=document.createElement('div'); v.className='viewer';
+  v.innerHTML=`
+    <button class="viewer-close" onclick="closeViewer()">✕</button>
+    <button class="viewer-del" onclick="viewerDel()">🗑️ Borrar esta foto</button>
+    ${total>1?`<button class="viewer-nav prev" onclick="viewerGo(${(viewerIdx-1+total)%total})">‹</button>`:''}
+    ${mediaEl}
+    ${total>1?`<button class="viewer-nav next" onclick="viewerGo(${(viewerIdx+1)%total})">›</button>`:''}
+    <div class="viewer-count">${viewerIdx+1} / ${total}</div>
+    <div class="viewer-strip">${thumbs}</div>`;
+  v.onclick=e=>{if(e.target===v)closeViewer();};
+  document.body.appendChild(v);
+}
+function viewerGo(i){viewerIdx=i;renderViewer();}
+function closeViewer(){const v=document.querySelector('.viewer');if(v)v.remove();}
+function viewerDel(){
+  if(!confirm('¿Borrar SOLO esta foto/video? Las demás se quedan.')) return;
+  const arr=getList(viewerList);
+  const item=arr.find(x=>x.id===viewerItemId); if(!item) return;
+  item.media.splice(viewerIdx,1);
+  if(!item.media.length){closeViewer();rerender(viewerList);return;}
+  viewerIdx=Math.min(viewerIdx,item.media.length-1);
+  item._cur=viewerIdx; renderViewer(); rerender(viewerList);
+}
+
+// ══════════════════════════════════════
+// POR MES
+// ══════════════════════════════════════
+let selectedYear=BIRTH_YEAR;
+function renderYearSelector(){
+  const now=new Date(); const cy=now.getFullYear();
+  const sel=document.getElementById('yearSelector');
+  sel.innerHTML=`<span class="year-display">${selectedYear}</span>`;
+  for(let y=BIRTH_YEAR;y<=cy+1;y++){
+    const btn=document.createElement('button');btn.className='year-btn'+(y===selectedYear?' active':'');
+    btn.textContent=y;btn.onclick=()=>{selectedYear=y;renderMonths();};sel.appendChild(btn);
+  }
+}
+function renderMonths(){
+  renderYearSelector();
+  if(!monthData[selectedYear]) monthData[selectedYear]={};
+  const grid=document.getElementById('monthsGrid'); grid.innerHTML='';
+  const now=new Date();
+  MONTHS_ES.forEach((mName,mi)=>{
+    const cardDate=new Date(selectedYear,mi,1);
+    if(cardDate>now) return;
+    if(!monthData[selectedYear][mi]) monthData[selectedYear][mi]={media:[],note:'',_cur:0};
+    const d=monthData[selectedYear][mi];
+    const days=Math.floor((cardDate-BIRTH_DATE)/(1000*60*60*24));
+    const ay=Math.floor(days/365),am=Math.floor((days%365)/30);
+    const ageLabel=ay>0?`${ay} año${ay!==1?'s':''} y ${am} mes${am!==1?'es':''}`:`${am} mes${am!==1?'es':''}`;
+    const cur=d._cur||0, curItem=d.media[cur];
+    let previewHtml=curItem
+      ?(curItem.type==='video'?`<video src="${curItem.url}" style="width:100%;height:100%;object-fit:cover" muted playsinline loop></video>`:`<img src="${curItem.url}" alt="">`)
+      :'<span style="font-size:1.8rem">🌸</span>';
+    const countB=d.media.length>1?`<div class="card-count-badge">${d.media.length}</div>`:'';
+    const thumbs=d.media.map((m,i)=>{
+      if(m.type==='video') return `<video src="${m.url}" class="month-thumb${i===cur?' active':''}" onclick="setMonthActive(${selectedYear},${mi},${i})" muted style="width:36px;height:36px;border-radius:6px;object-fit:cover;border:2px solid ${i===cur?'var(--rose)':'var(--gold)'}"></video>`;
+      return `<img src="${m.url}" class="month-thumb${i===cur?' active':''}" onclick="setMonthActive(${selectedYear},${mi},${i})">`;
+    }).join('');
+    const pid=`mpi_${selectedYear}_${mi}`, vid=`mvi_${selectedYear}_${mi}`;
+    const card=document.createElement('div'); card.className='month-card';
+    card.innerHTML=`
+      <div class="month-preview" onclick="${d.media.length?`openMonthViewer(${selectedYear},${mi},${cur})`:''}" style="cursor:${d.media.length?'pointer':'default'}">
+        ${previewHtml}${countB}
+      </div>
+      <div class="month-gallery">${thumbs}${d.media.length===0?'<span class="gallery-empty" style="font-size:0.65rem">Añade fotos abajo</span>':''}</div>
+      <div class="month-upload-bar">
+        <label class="month-upload-btn photo">📷 Foto<input type="file" id="${pid}" accept="*/*" style="display:none" data-year="${selectedYear}" data-month="${mi}" data-kind="photo"></label>
+        <label class="month-upload-btn video">🎬 Video<input type="file" id="${vid}" accept="*/*" style="display:none" data-year="${selectedYear}" data-month="${mi}" data-kind="video"></label>
+        ${d.media.length?`<button onclick="clearMonthMedia(${selectedYear},${mi})" style="padding:6px 8px;border-radius:7px;border:1.5px solid #f5c0c0;background:#fff;color:#c0392b;font-size:0.65rem;font-weight:800;cursor:pointer;font-family:Nunito,sans-serif" title="Borrar todas las fotos de este mes">🗑️</button>`:''}
+      </div>
+      <div class="month-foot">
+        <div class="month-name">${mName} ${selectedYear}</div>
+        <div class="month-age">${ageLabel}</div>
+        <textarea class="month-note-input" placeholder="Escribe un recuerdo..." data-year="${selectedYear}" data-month="${mi}">${d.note||''}</textarea>
+      </div>`;
+    [pid,vid].forEach(inputId=>{
+      const inp=card.querySelector(`#${inputId}`); if(!inp) return;
+      inp.addEventListener('change',function(){
+        const file=this.files[0];if(!file)return;
+        const yr=parseInt(this.dataset.year),mo=parseInt(this.dataset.month),kind=this.dataset.kind;
+        const isVideo=file.type.startsWith('video/')||kind==='video';
+        const reader=new FileReader();
+        reader.onload=e=>{
+          if(!monthData[yr][mo]) monthData[yr][mo]={media:[],note:'',_cur:0};
+          monthData[yr][mo].media.push({url:e.target.result,type:isVideo?'video':'photo'});
+          monthData[yr][mo]._cur=monthData[yr][mo].media.length-1;
+          renderMonths();
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+    card.querySelector('textarea').addEventListener('input',function(){
+      if(!monthData[parseInt(this.dataset.year)][parseInt(this.dataset.month)])return;
+      monthData[parseInt(this.dataset.year)][parseInt(this.dataset.month)].note=this.value;
+    });
+    if(curItem&&curItem.type==='video'){
+      const v=card.querySelector('.month-preview video');
+      if(v){card.addEventListener('mouseenter',()=>v.play());card.addEventListener('mouseleave',()=>{v.pause();v.currentTime=0;});}
+    }
+    grid.appendChild(card);
+  });
+}
+function setMonthActive(yr,mo,idx){
+  if(!monthData[yr]||!monthData[yr][mo])return;
+  monthData[yr][mo]._cur=idx; renderMonths();
+}
+function clearMonthMedia(yr,mo){
+  if(!confirm('¿Borrar TODAS las fotos y videos de este mes?'))return;
+  if(monthData[yr]&&monthData[yr][mo]){
+    monthData[yr][mo].media=[];
+    monthData[yr][mo]._cur=0;
+  }
+  renderMonths();
+}
+let mvYear=null,mvMonth=null,mvIdx=0;
+function openMonthViewer(yr,mo,idx){
+  mvYear=yr;mvMonth=mo;mvIdx=idx;renderMonthViewer();
+}
+function renderMonthViewer(){
+  const existing=document.querySelector('.viewer');if(existing)existing.remove();
+  const d=monthData[mvYear]&&monthData[mvYear][mvMonth];if(!d||!d.media.length)return;
+  const m=d.media[mvIdx],total=d.media.length;
+  const thumbs=d.media.map((mi,i)=>{
+    if(mi.type==='video') return `<video src="${mi.url}" class="viewer-thumb${i===mvIdx?' active':''}" onclick="monthViewerGo(${i})" muted style="width:54px;height:54px;border-radius:7px;object-fit:cover;cursor:pointer;opacity:${i===mvIdx?1:0.55};border:2px solid ${i===mvIdx?'var(--rose)':'transparent'}"></video>`;
+    return `<img src="${mi.url}" class="viewer-thumb${i===mvIdx?' active':''}" onclick="monthViewerGo(${i})">`;
+  }).join('');
+  const mediaEl=m.type==='video'?`<video src="${m.url}" class="viewer-main" controls autoplay style="max-width:92vw;max-height:72vh;border-radius:10px"></video>`:`<img src="${m.url}" class="viewer-main">`;
+  const v=document.createElement('div');v.className='viewer';
+  v.innerHTML=`
+    <button class="viewer-close" onclick="closeViewer()">✕</button>
+    <button class="viewer-del" onclick="monthViewerDel()">🗑️ Borrar esta foto</button>
+    ${total>1?`<button class="viewer-nav prev" onclick="monthViewerGo(${(mvIdx-1+total)%total})">‹</button>`:''}
+    ${mediaEl}
+    ${total>1?`<button class="viewer-nav next" onclick="monthViewerGo(${(mvIdx+1)%total})">›</button>`:''}
+    <div class="viewer-count">${mvIdx+1} / ${total}</div>
+    <div class="viewer-strip">${thumbs}</div>`;
+  v.onclick=e=>{if(e.target===v)closeViewer();};
+  document.body.appendChild(v);
+}
+function monthViewerGo(i){mvIdx=i;renderMonthViewer();}
+function monthViewerDel(){
+  if(!confirm('¿Borrar SOLO esta foto/video? Las demás se quedan.'))return;
+  const d=monthData[mvYear][mvMonth];
+  d.media.splice(mvIdx,1);
+  if(!d.media.length){closeViewer();renderMonths();return;}
+  mvIdx=Math.min(mvIdx,d.media.length-1);d._cur=mvIdx;
+  renderMonthViewer();renderMonths();
+}
+
+// ══════════════════════════════════════
+// GENERIC GRID RENDER
+// ══════════════════════════════════════
+function renderGrid(gridId, arr, makeCard, addFn, addIcon, addLabel){
+  const grid=document.getElementById(gridId);grid.innerHTML='';
+  arr.forEach(item=>{grid.appendChild(makeCard(item));});
+  const ac=document.createElement('div');ac.className='add-mem-card';ac.onclick=addFn;
+  ac.innerHTML=`<div style="font-size:2.2rem">${addIcon}</div><p>${addLabel}</p>`;
+  grid.appendChild(ac);
+}
+
+// ══════════════════════════════════════
+// CARD MAKERS
+// ══════════════════════════════════════
+function makeYearCard(y){
+  y._list='year';
+  return makeMediaCard(y,
+    `<div class="card-label">🎂 Año ${y.num} de Kailani</div>${y.date?`<div class="card-note">${new Date(y.date+'T12:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</div>`:''}${y.note?`<div class="card-note">"${y.note}"</div>`:''}`,
+    '','deleteFrom(yearCards,'+y.id+',\'year\')'
+  );
+}
+function makeSchoolCard(s){
+  s._list='school';
+  return makeMediaCard(s,
+    `<div class="card-label">🏫 ${s.grade}</div>${s.name?`<div class="card-note">${s.name}</div>`:''}${s.year?`<div class="card-note">📅 ${s.year}</div>`:''}${s.teacher?`<div class="card-note">👩‍🏫 ${s.teacher}</div>`:''}${s.note?`<div class="card-note">"${s.note}"</div>`:''}`,
+    '','deleteFrom(schoolCards,'+s.id+',\'school\')'
+  );
+}
+function makeFamCard(f){
+  f._list='fam';
+  return makeMediaCard(f,
+    `<div class="card-label">${f.name}</div>${f.rel?`<div class="card-note">${f.rel}</div>`:''}${f.phrase?`<div class="card-note" style="color:var(--rose);font-weight:800">"${f.phrase}"</div>`:''}${f.desc?`<div class="card-note">${f.desc}</div>`:''}`,
+    '','deleteFrom(famCards,'+f.id+',\'fam\')'
+  );
+}
+function makeRelCard(r){
+  r._list='rel';
+  const dateStr=r.date?new Date(r.date+'T12:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'}):'';
+  return makeMediaCard(r,
+    `<div class="card-label">${REL_ICONS[r.type]||'⛪'} ${r.event}</div>${dateStr?`<div class="card-note">${dateStr}</div>`:''}${r.desc?`<div class="card-note">${r.desc}</div>`:''}`,
+    '','deleteFrom(religionCards,'+r.id+',\'rel\')'
+  );
+}
+function makeActCard(a){
+  a._list='act';
+  return makeMediaCard(a,
+    `<div class="card-label">${ACT_ICONS[a.cat]||'✨'} ${a.name}</div>${a.from?`<div class="card-note">${a.from}${a.to?' – '+a.to:''}</div>`:''}${a.desc?`<div class="card-note">${a.desc}</div>`:''}`,
+    '','deleteFrom(activities,'+a.id+',\'act\')'
+  );
+}
+
+function deleteFrom(arr,id,list){
+  if(!confirm('¿Eliminar este momento completo?'))return;
+  const idx=arr.findIndex(x=>x.id===id);if(idx>-1)arr.splice(idx,1);
+  rerender(list);
+}
+function deleteMomMedia(id,idx){
+  if(!confirm('¿Borrar esta foto/video?'))return;
+  const mom=momentos.find(x=>x.id===id);if(!mom)return;
+  mom.media.splice(idx,1);
+  mom._cur=Math.min(mom._cur||0,Math.max(0,mom.media.length-1));
+  renderMomentos();
+}
+
+// ══════════════════════════════════════
+// ACTIVIDADES
+// ══════════════════════════════════════
+function filterAct(cat,btn){
+  actFilter=cat;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); renderActs();
+}
+function renderActs(){
+  const grid=document.getElementById('actGrid');grid.innerHTML='';
+  const list=actFilter==='all'?activities:activities.filter(a=>a.cat===actFilter);
+  list.forEach(a=>grid.appendChild(makeActCard(a)));
+  const ac=document.createElement('div');ac.className='add-mem-card';ac.onclick=()=>openModal('actModalBg');
+  ac.innerHTML=`<div style="font-size:2.2rem">🎀</div><p>Añadir actividad</p>`;grid.appendChild(ac);
+}
+
+// ══════════════════════════════════════
+// MOMENTOS (timeline with gallery)
+// ══════════════════════════════════════
+function renderMomentos(){
+  const tl=document.getElementById('momentosTimeline');tl.innerHTML='';
+  if(!momentos.length){tl.innerHTML='<p style="text-align:center;font-style:italic;color:var(--rose);padding:30px">Añade el primer momento de Kailani ✨</p>';return;}
+  momentos.forEach(m=>{
+    m._list='mom';
+    const dateStr=m.date?new Date(m.date+'T12:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'}):'Sin fecha';
+    const media=m.media||[];
+    const cur=m._cur||0, curItem=media[cur];
+    let previewHtml='';
+    if(curItem) previewHtml=curItem.type==='video'?`<video src="${curItem.url}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;max-height:200px" controls></video>`:`<img src="${curItem.url}" style="width:100%;border-radius:10px;margin-top:8px;max-height:200px;object-fit:cover;cursor:pointer" onclick="openViewer('mom',${m.id},${cur})">`;
+    const thumbs=media.map((mi,i)=>{
+      const isActive=i===cur;
+      const border=`border:2px solid ${isActive?'var(--rose)':mi.type==='video'?'var(--gold)':'var(--pale)'}`;
+      const thumb=mi.type==='video'
+        ?`<video src="${mi.url}" muted style="width:48px;height:48px;border-radius:8px;object-fit:cover;${border};cursor:pointer" onclick="setActive(${m.id},'mom',${i})"></video>`
+        :`<img src="${mi.url}" style="width:48px;height:48px;border-radius:8px;object-fit:cover;${border};cursor:pointer" onclick="setActive(${m.id},'mom',${i})">`;
+      return `<div style="position:relative;display:inline-block">
+        ${thumb}
+        <button onclick="deleteMomMedia(${m.id},${i})" style="position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#c0392b;color:#fff;border:none;font-size:0.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:800;line-height:1">✕</button>
+      </div>`;
+    }).join('');
+    const pid=`mmp_${m.id}`, vid=`mmv_${m.id}`;
+    const item=document.createElement('div');item.className='tl-item';
+    item.innerHTML=`
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <div class="tl-head">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+            <div class="tl-date">🌟 ${dateStr}</div>
+            <button onclick="deleteFrom(momentos,${m.id},'mom')" style="background:#fde8e8;border:none;border-radius:8px;padding:4px 10px;color:#c0392b;font-size:0.72rem;font-weight:800;cursor:pointer;font-family:Nunito,sans-serif">🗑️ Borrar</button>
+          </div>
+          <div class="tl-title">${m.title}</div>
+          ${m.desc?`<div class="tl-desc">"${m.desc}"</div>`:''}
+          ${previewHtml}
+          ${media.length>0?`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">${thumbs}</div>`:''}
+        </div>
+        <div style="display:flex;gap:5px;padding:8px 14px;border-top:1px solid var(--pale);">
+          <label class="upload-btn photo" style="flex:1;font-size:0.72rem">📷 Foto<input type="file" id="${pid}" accept="*/*" style="display:none" data-id="${m.id}" data-kind="photo"></label>
+          <label class="upload-btn video" style="flex:1;font-size:0.72rem">🎬 Video<input type="file" id="${vid}" accept="*/*" style="display:none" data-id="${m.id}" data-kind="video"></label>
+        </div>
+      </div>`;
+    [pid,vid].forEach(inputId=>{
+      const inp=item.querySelector(`#${inputId}`);if(!inp)return;
+      inp.addEventListener('change',function(){
+        const file=this.files[0];if(!file)return;
+        const id=parseInt(this.dataset.id),kind=this.dataset.kind;
+        const isVideo=file.type.startsWith('video/')||kind==='video';
+        const reader=new FileReader();
+        reader.onload=e=>{
+          const mom=momentos.find(x=>x.id===id);if(!mom)return;
+          if(!mom.media)mom.media=[];
+          mom.media.push({url:e.target.result,type:isVideo?'video':'photo'});
+          mom._cur=mom.media.length-1; renderMomentos();
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+    tl.appendChild(item);
+  });
+}
+
+// ══════════════════════════════════════
+// SAVE FUNCTIONS
+// ══════════════════════════════════════
+function saveYear(){
+  const num=document.getElementById('yrNum').value.trim();if(!num){alert('Escribe el número del año');return;}
+  yearCards.push({id:nid++,num,date:document.getElementById('yrDate').value,note:document.getElementById('yrNote').value,media:[],_cur:0});
+  closeModal('yearModalBg');renderGrid('yearsGrid',yearCards,makeYearCard,openModal.bind(null,'yearModalBg'),'🎂','Añadir año');
+}
+function saveAct(){
+  const name=document.getElementById('aName').value.trim();if(!name){alert('Escribe el nombre');return;}
+  activities.push({id:nid++,name,cat:document.getElementById('aCat').value,from:document.getElementById('aFrom').value,to:document.getElementById('aTo').value,desc:document.getElementById('aDesc').value,media:[],_cur:0});
+  closeModal('actModalBg');renderActs();
+}
+function saveSchool(){
+  const grade=document.getElementById('sGrade').value.trim();if(!grade){alert('Escribe el grado');return;}
+  schoolCards.push({id:nid++,grade,name:document.getElementById('sName').value,year:document.getElementById('sYear').value,teacher:document.getElementById('sTeacher').value,note:document.getElementById('sNote').value,media:[],_cur:0});
+  closeModal('schoolModalBg');renderGrid('schoolGrid',schoolCards,makeSchoolCard,openModal.bind(null,'schoolModalBg'),'🏫','Añadir año escolar');
+}
+function saveFam(){
+  const name=document.getElementById('fName').value.trim();if(!name){alert('Escribe el nombre');return;}
+  famCards.push({id:nid++,name,rel:document.getElementById('fRel').value,phrase:document.getElementById('fPhrase').value,desc:document.getElementById('fDesc').value,emoji:'👤',media:[],_cur:0});
+  closeModal('famModalBg');renderGrid('famGrid',famCards,makeFamCard,openModal.bind(null,'famModalBg'),'👨‍👩‍👧','Añadir familiar');
+}
+function saveReligion(){
+  const ev=document.getElementById('rEvent').value.trim();if(!ev){alert('Escribe el evento');return;}
+  religionCards.push({id:nid++,event:ev,type:document.getElementById('rType').value,date:document.getElementById('rDate').value,desc:document.getElementById('rDesc').value,media:[],_cur:0});
+  closeModal('religionModalBg');renderGrid('religionGrid',religionCards,makeRelCard,openModal.bind(null,'religionModalBg'),'⛪','Añadir evento');
+}
+function saveMomento(){
+  const title=document.getElementById('mTitle').value.trim();if(!title){alert('Escribe el título');return;}
+  momentos.unshift({id:nid++,title,date:document.getElementById('mDate').value,desc:document.getElementById('mDesc').value,media:[],_cur:0});
+  closeModal('momentoModalBg');renderMomentos();
+}
+
+// ══════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════
+function openModal(id){document.getElementById(id).style.display='flex';}
+function closeModal(id){document.getElementById(id).style.display='none';}
+function bgClose(e,id){if(e.target.id===id)closeModal(id);}
+
+// ══════════ HERO PHOTO ══════════
+function setHeroPhoto(event){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const hero=document.querySelector('.hero');
+    hero.style.backgroundImage=`url('${e.target.result}')`;
+    hero.style.backgroundSize='cover';
+    hero.style.backgroundPosition='center';
+    hero.querySelector('.hero::before');
+    // darken overlay so text stays readable
+    hero.style.setProperty('--overlay','rgba(122,45,82,0.55)');
+    const before=document.createElement('style');
+    before.textContent=`.hero::before{background:rgba(122,45,82,0.55)!important;}`;
+    document.head.appendChild(before);
+  };
+  reader.readAsDataURL(file);
+}
+
+// ══════════ CARTAS ══════════
+let cartas=[];
+function saveCarta(){
+  const texto=document.getElementById('ctTexto').value.trim();if(!texto){alert('Escribe la carta');return;}
+  cartas.unshift({id:nid++,titulo:document.getElementById('ctTitulo').value.trim()||'Una carta con amor',fecha:document.getElementById('ctFecha').value,texto,cuando:document.getElementById('ctCuando').value.trim()});
+  ['ctTitulo','ctFecha','ctTexto','ctCuando'].forEach(id=>document.getElementById(id).value='');
+  closeModal('cartaModalBg');renderCartas();
+}
+function renderCartas(){
+  const list=document.getElementById('cartasList');
+  if(!cartas.length){list.innerHTML='<p style="text-align:center;font-style:italic;color:var(--rose);padding:30px">Escríbele la primera carta a Kailani 💌</p>';return;}
+  list.innerHTML=cartas.map(c=>`
+    <div class="carta-card">
+      <button class="carta-del" onclick="deleteById(cartas,${c.id},renderCartas)">✕</button>
+      <div class="carta-sobre">💌</div>
+      <div class="carta-titulo">${c.titulo}</div>
+      ${c.cuando?`<div class="carta-cuando">📬 Leer cuando: ${c.cuando}</div>`:''}
+      <div class="carta-texto">${c.texto}</div>
+      <div class="carta-fecha">${c.fecha?'Con amor, '+new Date(c.fecha+'T12:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'}):'Con todo mi amor — Mamá'}</div>
+    </div>`).join('');
+}
+
+// ══════════ PRIMERAS VECES ══════════
+let primeras=[];
+const PRIMERAS_ICONS=['🥇','👶','🦷','👟','🗣️','🎂','🏊','✈️','📚','🎨','🐾','💃','⚽','🎵','🤝'];
+function savePrimera(){
+  const que=document.getElementById('pvQue').value.trim();if(!que){alert('Escribe qué fue');return;}
+  primeras.push({id:nid++,que,fecha:document.getElementById('pvFecha').value,edad:document.getElementById('pvEdad').value,desc:document.getElementById('pvDesc').value,media:[],_cur:0});
+  ['pvQue','pvFecha','pvEdad','pvDesc'].forEach(id=>document.getElementById(id).value='');
+  closeModal('primeraModalBg');renderPrimeras();
+}
+function renderPrimeras(){
+  const grid=document.getElementById('primerasGrid');grid.innerHTML='';
+  primeras.forEach((p,idx)=>{
+    p._list='primera';
+    const icon=PRIMERAS_ICONS[idx%PRIMERAS_ICONS.length];
+    p.emoji=icon;
+    const card=makeMediaCard(p,
+      `<div class="primera-que">${icon} ${p.que}</div>${p.edad?`<div class="primera-edad">📅 ${p.edad}</div>`:''}${p.fecha?`<div class="primera-edad">${new Date(p.fecha+'T12:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</div>`:''}${p.desc?`<div class="primera-desc">${p.desc}</div>`:''}`,
+      '','deleteById(primeras,'+p.id+',renderPrimeras)'
+    );
+    grid.appendChild(card);
+  });
+  const ac=document.createElement('div');ac.className='add-mem-card';ac.onclick=()=>openModal('primeraModalBg');
+  ac.innerHTML=`<div style="font-size:2.2rem">🥇</div><p>Añadir primera vez</p>`;grid.appendChild(ac);
+}
+
+// ══════════ CRECIMIENTO ══════════
+let creces=[];
+function saveCrece(){
+  const fecha=document.getElementById('crFecha').value;if(!fecha){alert('Selecciona la fecha');return;}
+  const talla=parseFloat(document.getElementById('crTalla').value)||null;
+  const peso=parseFloat(document.getElementById('crPeso').value)||null;
+  creces.push({id:nid++,fecha,talla,peso,nota:document.getElementById('crNota').value.trim()});
+  creces.sort((a,b)=>a.fecha.localeCompare(b.fecha));
+  ['crFecha','crTalla','crPeso','crNota'].forEach(id=>document.getElementById(id).value='');
+  closeModal('creceModalBg');renderCrece();
+}
+function renderCrece(){
+  const chartDiv=document.getElementById('creceChart');
+  const listDiv=document.getElementById('creceList');
+  if(!creces.length){
+    chartDiv.innerHTML='';
+    listDiv.innerHTML='<p style="text-align:center;font-style:italic;color:var(--rose);padding:30px">Añade la primera medida de Kailani 📏</p>';
+    return;
+  }
+  // Simple bar chart
+  const maxTalla=Math.max(...creces.filter(c=>c.talla).map(c=>c.talla))||100;
+  const maxPeso=Math.max(...creces.filter(c=>c.peso).map(c=>c.peso))||30;
+  const tallaRows=creces.filter(c=>c.talla).map(c=>`
+    <div class="crece-bar-row">
+      <div class="crece-bar-label">${new Date(c.fecha+'T12:00').toLocaleDateString('es-ES',{month:'short',year:'2-digit'})}</div>
+      <div class="crece-bar"><div class="crece-bar-fill" style="width:${(c.talla/maxTalla*100).toFixed(1)}%;background:linear-gradient(to right,var(--rose),var(--gold))"></div></div>
+      <div class="crece-bar-val">${c.talla} cm</div>
+    </div>`).join('');
+  const pesoRows=creces.filter(c=>c.peso).map(c=>`
+    <div class="crece-bar-row">
+      <div class="crece-bar-label">${new Date(c.fecha+'T12:00').toLocaleDateString('es-ES',{month:'short',year:'2-digit'})}</div>
+      <div class="crece-bar"><div class="crece-bar-fill" style="width:${(c.peso/maxPeso*100).toFixed(1)}%;background:linear-gradient(to right,var(--gold),#e8d47a)"></div></div>
+      <div class="crece-bar-val">${c.peso} lb</div>
+    </div>`).join('');
+  chartDiv.innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+      ${tallaRows?`<div class="crece-bar-wrap"><div class="crece-bar-title">📏 Talla (cm)</div>${tallaRows}</div>`:''}
+      ${pesoRows?`<div class="crece-bar-wrap"><div class="crece-bar-title">⚖️ Peso (lb)</div>${pesoRows}</div>`:''}
+    </div>`;
+  listDiv.innerHTML=`<table class="crece-table">
+    <tr><th>Fecha</th><th>Talla</th><th>Peso</th><th>Nota</th><th></th></tr>
+    ${[...creces].reverse().map(c=>`<tr>
+      <td>${new Date(c.fecha+'T12:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'})}</td>
+      <td>${c.talla?c.talla+' cm':'—'}</td>
+      <td>${c.peso?c.peso+' lb':'—'}</td>
+      <td style="font-style:italic;color:#a06080;font-size:0.82rem">${c.nota||''}</td>
+      <td><button onclick="deleteById(creces,${c.id},renderCrece)" style="background:none;border:none;cursor:pointer;color:#ddd;font-size:0.9rem">✕</button></td>
+    </tr>`).join('')}
+  </table>`;
+}
+
+// ══════════ FAVORITOS ══════════
+let favs=[];
+function saveFav(){
+  const edad=document.getElementById('fvEdad').value.trim();if(!edad){alert('Escribe la edad');return;}
+  favs.unshift({id:nid++,edad,
+    color:document.getElementById('fvColor').value.trim(),
+    comida:document.getElementById('fvComida').value.trim(),
+    cancion:document.getElementById('fvCancion').value.trim(),
+    personaje:document.getElementById('fvPersonaje').value.trim(),
+    juguete:document.getElementById('fvJuguete').value.trim(),
+    palabra:document.getElementById('fvPalabra').value.trim(),
+    actividad:document.getElementById('fvActividad').value.trim(),
+  });
+  ['fvEdad','fvColor','fvComida','fvCancion','fvPersonaje','fvJuguete','fvPalabra','fvActividad'].forEach(id=>document.getElementById(id).value='');
+  closeModal('favModalBg');renderFavs();
+}
+function renderFavs(){
+  const list=document.getElementById('favsList');
+  if(!favs.length){list.innerHTML='<p style="text-align:center;font-style:italic;color:var(--rose);padding:30px">Añade los favoritos de Kailani 💖</p>';return;}
+  const FAV_FIELDS=[{k:'color',icon:'🎨',l:'Color'},{k:'comida',icon:'🍽️',l:'Comida'},{k:'cancion',icon:'🎵',l:'Canción'},{k:'personaje',icon:'⭐',l:'Personaje'},{k:'juguete',icon:'🧸',l:'Juguete'},{k:'palabra',icon:'💬',l:'Palabra'},{k:'actividad',icon:'🌟',l:'Actividad'}];
+  list.innerHTML=favs.map(f=>`
+    <div class="fav-card">
+      <button onclick="deleteById(favs,${f.id},renderFavs)" style="position:absolute;top:14px;right:14px;background:none;border:none;cursor:pointer;color:#ddd;font-size:0.9rem">✕</button>
+      <div class="fav-edad">💖 ${f.edad}</div>
+      <div class="fav-grid">
+        ${FAV_FIELDS.filter(fi=>f[fi.k]).map(fi=>`
+          <div class="fav-item">
+            <div class="fav-item-label">${fi.icon} ${fi.l}</div>
+            <div class="fav-item-value">${f[fi.k]}</div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+// ══════════ FRASES ══════════
+let frases=[];
+function saveFrase(){
+  const frase=document.getElementById('frFrase').value.trim();if(!frase){alert('Escribe lo que dijo');return;}
+  frases.unshift({id:nid++,frase,fecha:document.getElementById('frFecha').value,edad:document.getElementById('frEdad').value.trim(),contexto:document.getElementById('frContexto').value.trim()});
+  ['frFrase','frFecha','frEdad','frContexto'].forEach(id=>document.getElementById(id).value='');
+  closeModal('fraseModalBg');renderFrases();
+}
+function renderFrases(){
+  const list=document.getElementById('frasesList');
+  if(!frases.length){list.innerHTML='<p style="text-align:center;font-style:italic;color:var(--rose);padding:30px">Guarda la primera frase de Kailani 💬</p>';return;}
+  list.innerHTML=frases.map(f=>`
+    <div class="frase-card">
+      <button onclick="deleteById(frases,${f.id},renderFrases)" style="position:absolute;top:12px;right:14px;background:none;border:none;cursor:pointer;color:#ddd;font-size:0.9rem">✕</button>
+      <span class="frase-comilla">"</span>
+      <div class="frase-texto">${f.frase}"</div>
+      <div class="frase-meta">${f.edad?'👶 '+f.edad:''}${f.edad&&f.fecha?' · ':''}${f.fecha?new Date(f.fecha+'T12:00').toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'}):''}</div>
+      ${f.contexto?`<div class="frase-contexto">📝 ${f.contexto}</div>`:''}
+    </div>`).join('');
+}
+
+// ══════════ SHARED DELETE ══════════
+function deleteById(arr,id,rerender){
+  if(!confirm('¿Eliminar?'))return;
+  const idx=arr.findIndex(x=>x.id===id);if(idx>-1)arr.splice(idx,1);
+  rerender();
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+initHero();
+renderMonths();
+</script>
+</body>
+</html>
